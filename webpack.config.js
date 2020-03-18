@@ -10,5 +10,48 @@ module.exports = {
     },
     devServer:{
         contentBase: './dist'
+    },
+    module: {
+        rules: [
+        /*     {
+                test: /\.(html)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                    }
+                },],
+            }, */
+            {
+                test: /\.css$/,
+                use: [
+                    'style-loader',
+                    'css-loader'
+                ]
+            }, /* {
+                test: /\.(png|svg|jpg|jpeg|gif)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'img',
+                        publicPath: 'img'
+                    }
+                }
+
+                ],
+            }, */
+         /*    {
+                test: /\.(woff|woff2|eot|ttf|otf)$/,
+                use: [{
+                    loader: 'file-loader',
+                    options: {
+                        name: '[name].[ext]',
+                        outputPath: 'fonts',
+                        publicPath: 'fonts'
+                    }
+                },],
+            }, */
+        ]
     }
 }
