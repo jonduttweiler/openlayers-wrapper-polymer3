@@ -1,0 +1,27 @@
+{
+  "name": "maps-demo-lit",
+  "version": "1.0.0",
+  "description": "Lit element component that uses openlayers",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [
+    "openlayers",
+    "map",
+    "webcomponents"
+  ],
+  "author": "Jonatan E Duttweiler <jonatanduttweiler@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@polymer/polymer": "^3.3.1",
+    "ol": "^6.2.1",
+    "ol-ext": "^3.1.10"
+  },
+  "devDependencies": {
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
