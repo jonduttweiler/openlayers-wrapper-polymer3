@@ -11,15 +11,82 @@
             height: 100vh;
             margin: 0px;
         }
-        #custom-map{
-            height: 100%;
+        .main-container{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        openlayers-map{
+            display: block;
             width: 100%;
+            height: 300px;
+        }
+
+        .minimap{
+            height:350px;
+            width: 33%;
+        }
+        .middlemap{
+            height:350px;
+            width: 50%;
         }
 
     </style>
 </head>
 <body>
-    <openlayers-map id="custom-map"></openlayers-map>
+    <div class="main-container"> 
+    <openlayers-map 
+            class="minimap"
+            view-lon="-60.712829" 
+            view-lat="-31.641445" 
+            view-zoom="14"
+            raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+    >
+    </openlayers-map>
+
+    <openlayers-map
+            class="minimap"
+            view-lon="103.847627" 
+            view-lat="1.353661" 
+            view-zoom="7"
+            raster-source="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+    >
+    </openlayers-map>
+    <openlayers-map
+            class="minimap"
+            view-lon="103.847627" 
+            view-lat="1.353661" 
+            view-zoom="7"
+            raster-source="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
+    >
+    </openlayers-map>
+
+    
+
+    <openlayers-map 
+            class="middlemap"
+            view-lon="-68.300550" 
+            view-lat="-54.795559" 
+            view-zoom="7"
+            raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+    >
+    </openlayers-map>
+
+    <openlayers-map 
+            class="middlemap"
+        view-lon="-14.846667"
+        view-lat="2.799744"
+        view-zoom="1"
+        raster-source="http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
+    >
+
+    </openlayers-map>
+    
+</div>
+
+    
 
     <script src="main.js"></script>
 </body>
