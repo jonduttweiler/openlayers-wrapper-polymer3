@@ -45,7 +45,7 @@
             view-zoom="12"
             raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
     >
-       <map-marker 
+          <map-marker 
                 slot="marker"
                 m-longitude="-60.712829" 
                 m-latitude="-31.64144"
@@ -93,13 +93,14 @@
     </openlayers-map>
 
     <openlayers-map 
-            class="middlemap"
+        class="middlemap"
         view-lon="-14.846667"
         view-lat="2.799744"
         view-zoom="1"
         raster-source="http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
     >
-
+        <map-marker slot="marker" m-longitude="-60.712829" m-latitude="-31.64144"></map-marker>
+        <map-marker slot="marker" m-longitude="91.006541" m-latitude="60.045965"m-color="#73BBFF"></map-marker>
     </openlayers-map>
     
 </div>
