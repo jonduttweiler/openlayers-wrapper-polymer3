@@ -53,7 +53,7 @@ class OpenlayersMap extends PolymerElement {
     initComponent() {
         this.initLayers();
         this.initMarkers();
-        this.addMapEventHandlers();
+        //this.addMapEventHandlers();
     }
 
     initLayers(){
