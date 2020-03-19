@@ -24,68 +24,41 @@
             height: 300px;
         }
 
-        .minimap{
-            height:350px;
-            width: 33%;
-            margin-bottom: 6px;
-        }
-        .middlemap{
-            height:350px;
-            width: 50%;
+        .fullmap{
+            width: 100%;
+            height: 100vh;
         }
 
     </style>
 </head>
 <body>
     <div class="main-container"> 
-    <openlayers-map 
-            class="minimap"
-            view-lon="-60.712829" 
-            view-lat="-31.641445" 
-            view-zoom="14"
-            raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-    >
-    </openlayers-map>
-
-    <openlayers-map
-            class="minimap"
-            view-lon="103.847627" 
-            view-lat="1.353661" 
-            view-zoom="7"
-            raster-source="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-    >
-    </openlayers-map>
-    <openlayers-map
-            class="minimap"
-            view-lon="103.847627" 
-            view-lat="1.353661" 
-            view-zoom="7"
-            raster-source="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
-    >
-    </openlayers-map>
-
-    
-
-    <openlayers-map 
-            class="middlemap"
-            view-lon="-68.300550" 
-            view-lat="-54.795559" 
-            view-zoom="7"
-            raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-    >
-    </openlayers-map>
-
-    <openlayers-map 
-            class="middlemap"
-        view-lon="-14.846667"
-        view-lat="2.799744"
-        view-zoom="1"
-        raster-source="http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
-    >
-
-    </openlayers-map>
-    
-</div>
+        <openlayers-map 
+                class="fullmap"
+                view-lon="-60.712829" 
+                view-lat="-31.641445" 
+                view-zoom="14"
+                raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+        >
+            <map-marker 
+                slot="marker"
+                m-longitude="-60.712829" 
+                m-latitude="-31.64144"
+            ></map-marker>
+            <map-marker 
+                slot="marker"
+                m-longitude="-60.681147" 
+                m-latitude="-31.640089"
+                m-color="#73BBFF"
+            ></map-marker>
+            <map-marker 
+                slot="marker"
+                m-longitude="-60.673697", 
+                m-latitude="-31.633669"
+                m-color="#5FFF82"
+            ></map-marker>
+        </openlayers-map>
+    </div>
 
     
 
