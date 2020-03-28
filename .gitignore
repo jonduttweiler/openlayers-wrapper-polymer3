@@ -19,3 +19,4 @@ webpack.generated.js
 .gradle
 .settings
 .vscode
+dist/main.js
