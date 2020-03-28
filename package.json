@@ -1,8 +1,9 @@
 {
-  "name": "maps-demo-lit",
-  "version": "1.0.0",
-  "description": "Lit element component that uses openlayers",
-  "private": true,
+  "name": "openlayers-component",
+  "version": "1.0.3",
+  "description": "Web Component created with Polymer 3 that you can use for include maps in your pages or apps",
+  "private": false,
+  "main": "/src/components/OpenLayersMap.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
@@ -11,8 +12,13 @@
   "keywords": [
     "openlayers",
     "map",
-    "webcomponents"
+    "webcomponents",
+    "polymer3"
   ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/jonduttweiler/openlayers-wrapper-polymer3"
+  },
   "author": "Jonatan E Duttweiler <jonatanduttweiler@gmail.com>",
   "license": "ISC",
   "dependencies": {
