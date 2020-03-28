@@ -1,4 +1,4 @@
-# openlayers-wrapper-polymer3
+# openlayers-component
 
 Custom Element created with Polymer3 for maps
 
