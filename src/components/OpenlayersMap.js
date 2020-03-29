@@ -17,7 +17,11 @@ class OpenlayersMap extends PolymerElement {
         return html`
         <style include="openlayers-style"> </style>
         <style>
-             #map{
+            :host{
+                display:block;
+            }
+
+            #map{
                  width:100%;
                  height:100%
              }
