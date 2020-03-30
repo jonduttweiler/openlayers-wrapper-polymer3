@@ -1,6 +1,6 @@
 {
   "name": "openlayers-component",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Web Component created with Polymer 3 that you can use for include maps in your pages or apps",
   "private": false,
   "main": "src/components/OpenlayersMap.js",
