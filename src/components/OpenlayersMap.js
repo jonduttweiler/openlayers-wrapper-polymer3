@@ -1,13 +1,11 @@
 import { PolymerElement, html } from '@polymer/polymer';
 
-import { Map, View } from 'ol';
+import Map from 'ol/Map';
+import View from 'ol/View';
 import { fromLonLat } from 'ol/proj';
 
-import createRaster from '../layers/raster';
-import VectorLayer from 'ol/layer/Vector';
-import VectorSource from 'ol/source/Vector';
-
-import { addMarker } from '../layers/marker';
+import TileXYZ from '../layers/TileXYZ';
+import Markers from '../layers/markers/Markers';
 
 import '../styles/openlayers';
 
@@ -15,7 +13,7 @@ class OpenlayersMap extends PolymerElement {
 
     static get template() {
         return html`
-        <style include="openlayers-style"> </style>
+        <style include="openlayers-style"></style>
         <style>
             :host{
                 display:block;
@@ -23,7 +21,8 @@ class OpenlayersMap extends PolymerElement {
 
             #map{
                  width:100%;
-                 height:100%
+                 height:100%;
+                 box-sizing: border-box;
              }
          </style>
         
@@ -34,9 +33,9 @@ class OpenlayersMap extends PolymerElement {
 
     static get properties() {
         return {
-            rasterSource:{
+            tileSource:{
                 type:String,
-               /*  default:"http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png" */
+                value:"http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
             },
             viewLon:{
                 type: Number
@@ -56,39 +55,46 @@ class OpenlayersMap extends PolymerElement {
 
     initComponent() {
         this.initLayers();
-        this.initMarkers();
-        //this.addMapEventHandlers();
+        this.initMap();
+        this.processChildElements();
     }
 
     initLayers(){
-        const longitude = this.viewLon;
-        const latitude = this.viewLat;
-        const zoom = this.viewZoom;
+        this.layers = {};
 
-        const raster = createRaster(this.rasterSource);
+        const base = new TileXYZ(this.tileSource);
+        this.layers["base"] = base.layer;
+
+        this.markers = new Markers({multi:true});
+        this.layers["marker"] = this.markers.layer;
+    }
 
 
-        const markerSource = new VectorSource();
-        const markerLayer = new VectorLayer({
-            title: "marker",
-            source: markerSource
-        });
-        this.markerSource = markerSource; //we can use an array of layers and sources?
-
-        const target = this.$.map;
+    initMap() {
         const map = new Map({
-            target: target,
-            layers: [raster,markerLayer],
-            view: new View({
-                center: fromLonLat([longitude, latitude]),
-                zoom: zoom
-            }),
+            target: this.$.map,
+            layers: Object.values(this.layers),
+            view: this.createView()
         });
-
         this.map = map;
     }
 
-    initMarkers(){
+    createView() {
+        const longitude = this.viewLon;
+        const latitude = this.viewLat;
+        const zoom = this.viewZoom;
+        return new View({
+            center: fromLonLat([longitude, latitude]),
+            zoom: zoom
+        });
+    }
+
+    processChildElements(){
+        this.processChildMarkers();
+        
+    }
+
+    processChildMarkers(){
         const markerSlot = this.$.marker;
         const assigned = markerSlot.assignedElements();
         assigned.forEach(el => {
@@ -96,23 +102,10 @@ class OpenlayersMap extends PolymerElement {
             const longitude = el.getAttribute("m-longitude");
             const color = el.getAttribute("m-color");
             const coords = fromLonLat([longitude,latitude]);
-            addMarker(this.markerSource,coords,color)
+            console.log("add marker at"+coords);
+            this.markers.addMarker(coords, color);
         });
-        
     }
-
-
-    addMapEventHandlers(){
-        this.map.on('click', ev => {
-            addMarker(this.markerSource, ev.coordinate, true);
-        });
-
-        return this;
-    }
-
-
-
-
 
     connectedCallback() {
         super.connectedCallback();
