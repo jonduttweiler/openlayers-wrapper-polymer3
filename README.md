@@ -1,22 +1,35 @@
-
 # openlayers-wrapper-polymer3
 
-Custom Element created with Polymer3 for maps
+Add maps into your application or page in an easy way  🌎
 
-#### Usage
+### Installation
+
+#### npm 
+ npm install --save openlayers-component
+ 
+#### unpkg
+You can add the following in the \<head\> of your html :
+~~~~
+<script src="https://unpkg.com/openlayers-component@${version}/dist/main.js"></script>
+~~~~
+
+
+### Usage
+Add the custom element tag where you want to show the map
 ~~~~
 <openlayers-map></openlayers-map>
 ~~~~
-
+  You can add attributes to configure the initial view and the source of your base layer
 ~~~~
 <openlayers-map
    view-lon="-60.712829"
    view-lat="-31.641445"
    view-zoom="14"
-   raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+   tile-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
 >
 </openlayers-map>
-~~~~
+  ~~~~
+
 
 #### Size
 Place the custom element in a div with the desired dimensions
@@ -28,7 +41,7 @@ Place the custom element in a div with the desired dimensions
 
 
 #### Updating view dynamically
-You can modify the view changing element attribute values
+You can modify the view programatically, changing element attribute values
 ~~~~
 const map = document.querySelector("#map1");
 map.setAttribute("view-lon","-60.62");
