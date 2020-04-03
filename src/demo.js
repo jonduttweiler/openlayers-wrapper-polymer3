@@ -1,5 +1,4 @@
-import OpenLayersMap from './components/OpenlayersMap';
-import MapMarker from './components/MapMarker';
+import {OpenlayersMap, MapMarker} from './main';
 
 //hacer algo con el mapa
 const map = document.querySelector("#map1");

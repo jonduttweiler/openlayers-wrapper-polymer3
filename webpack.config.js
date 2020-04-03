@@ -2,7 +2,7 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-    entry:'./src/demo.js',
+    entry:'./src/main.js',
     mode: 'production',
     //devtool: 'inline-source-map',
     output: {

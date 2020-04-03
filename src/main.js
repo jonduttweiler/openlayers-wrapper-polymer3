@@ -1,4 +1,2 @@
-import OpenlayersMap from './components/OpenlayersMap';
-import MapMarker from './components/MapMarker';
-
-module.exports = { OpenlayersMap, MapMarker };
+export {default as OpenlayersMap} from './components/OpenlayersMap';
+export {default as MapMarker} from './components/MapMarker';
