@@ -47,7 +47,7 @@ class OpenlayersMap extends PolymerElement {
             },
             viewZoom:{
                 type: Number,
-                value: 2
+                value: 1
             },
         }
     }
