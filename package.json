@@ -5,6 +5,7 @@
   "private": false,
   "main": "src/main.js",
   "files": [
+    "src/*",
     "dist/main.js"
   ],
   "scripts": {

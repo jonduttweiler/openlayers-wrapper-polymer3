@@ -1,5 +1,4 @@
 
 .vscode
 webpack.config.js
-dist
-src/index.js
+src/demo.js
