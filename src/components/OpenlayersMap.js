@@ -2,7 +2,7 @@ import { PolymerElement, html } from '@polymer/polymer';
 
 import Map from 'ol/Map';
 import View from 'ol/View';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 
 import TileXYZ from '../layers/TileXYZ';
 import Markers from '../layers/markers/Markers';
@@ -39,15 +39,18 @@ class OpenlayersMap extends PolymerElement {
             },
             viewLon:{
                 type: Number,
-                value:0 
+                value:0,
+                notify: true,
             },
             viewLat:{
                 type: Number,
-                value: 0
+                value: 0,
+                notify: true,
             },
-            viewZoom:{
+            viewZoom:{ //two way data-binding
                 type: Number,
-                value: 1
+                value: 1,
+                notify:true,
             },
         }
     }
@@ -56,10 +59,16 @@ class OpenlayersMap extends PolymerElement {
         super();
     }
 
+    connectedCallback() {
+        super.connectedCallback();
+        this.initComponent();
+    }
+
     initComponent() {
         this.initLayers();
         this.initMap();
         this.processChildElements();
+        this.addChangeViewListeners();
     }
 
     initLayers(){
@@ -86,11 +95,14 @@ class OpenlayersMap extends PolymerElement {
         const longitude = this.viewLon;
         const latitude = this.viewLat;
         const zoom = this.viewZoom;
-        return new View({
+
+        const view = new View({
             enableRotation:false,
             center: fromLonLat([longitude, latitude]),
             zoom: zoom
         });
+        this.view = view;
+        return view;
     }
 
     processChildElements(){
@@ -111,10 +123,40 @@ class OpenlayersMap extends PolymerElement {
         });
     }
 
-    connectedCallback() {
-        super.connectedCallback();
-        this.initComponent();
+
+    addChangeViewListeners(){
+        this.addEventListener('view-lon-changed', e => {
+            const newLongitude = e.detail.value;
+            const prevCoordinates = this.view.getCenter();
+            const prevLat = toLonLat(prevCoordinates)[1];
+            const updatedCoordinates = fromLonLat([ newLongitude, prevLat]);
+
+            const deltaCoordinates = [updatedCoordinates[0] - prevCoordinates[0], 0];
+            this.view.adjustCenter(deltaCoordinates);
+            return this;
+        });
+
+        this.addEventListener('view-lat-changed', e => {
+            const newLatitude = e.detail.value;
+            const prevCoordinates = this.view.getCenter();
+            const prevLon = toLonLat(prevCoordinates)[0];
+            const updatedCoordinates = fromLonLat([ prevLon, newLatitude]);
+
+            const deltaCoordinates = [0,updatedCoordinates[1] - prevCoordinates[1]];
+            this.view.adjustCenter(deltaCoordinates);
+            return this;
+        });
+
+        this.addEventListener('view-zoom-changed', e => {
+            const newValue = e.detail.value;
+            const prevValue = this.view.getZoom();
+            const delta = newValue - prevValue;
+
+            this.view.adjustZoom(delta);
+            return this;
+        });
     }
+
 
 
 }

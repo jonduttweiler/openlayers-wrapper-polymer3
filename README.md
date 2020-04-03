@@ -3,11 +3,10 @@
 
 Custom Element created with Polymer3 for maps
 
-Usage:
+#### Usage
 ~~~~
 <openlayers-map></openlayers-map>
 ~~~~
-
 
 ~~~~
 <openlayers-map
@@ -17,12 +16,22 @@ Usage:
    raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
 >
 </openlayers-map>
-  ~~~~
+~~~~
 
-
-Important: place the custom element in a div with the desired dimensions
-  ~~~~
+#### Size
+Place the custom element in a div with the desired dimensions
+~~~~
 <div class="map-container" style="width:100%;height: 300px;">
 	<openlayers-map></openlayers-map>
 </div>
-  ~~~~
+~~~~
+
+
+#### Updating view dynamically
+You can modify the view changing element attribute values
+~~~~
+const map = document.querySelector("#map1");
+map.setAttribute("view-lon","-60.62");
+map.setAttribute("view-lat","-31.62");
+map.setAttribute("view-zoom","11");
+~~~~
