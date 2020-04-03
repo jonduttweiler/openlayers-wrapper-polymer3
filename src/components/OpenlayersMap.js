@@ -17,6 +17,9 @@ class OpenlayersMap extends PolymerElement {
         <style>
             :host{
                 display:block;
+                width:100%;
+                height: 100%;
+                box-sizing:border-box;
             }
 
             #map{
