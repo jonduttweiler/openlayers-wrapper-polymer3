@@ -1,112 +1,256 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maps demo</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <title>Maps demo 🌎</title>
+
+    <link rel="stylesheet" href="styles/aos/aos.css" >
+    <link rel="stylesheet" href="styles/highlight/styles/darcula.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dosis:wght@500&family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+
+    <script src="hightlight/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
     <style>
-        body{
+        body {
             width: 100%;
             height: 100vh;
             margin: 0px;
-        }
-        .main-container{
+            padding: 10px;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
             display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+        }
+        .title{
+            font-family: 'Dosis', sans-serif;
+            font-size: 3em;
+            text-align: center;
         }
 
-        openlayers-map{
+        section.general-info {
+            text-align: center;
+            padding-bottom: 25px;
+            font-size: 18px;
+        }
+
+        section.general-info a {
+            color: indianred;
+            text-decoration: none;
+            font-weight: 600;
             display: block;
+        }
+
+        .section-examples {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+        .main-container {
             width: 100%;
-            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
         }
 
-        .minimap{
-            height:350px;
-            width: 33%;
-            margin-bottom: 6px;
-        }
-        .middlemap{
-            height:350px;
-            width: 50%;
+
+        .case{
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            margin-bottom: 10px;
         }
 
+        .case h3{
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        @media(min-width: 1400px){
+            .case{
+                width: 80%;
+            }
+
+         
+        }
+
+        .info-container{
+            font-size:17px;
+        }
+
+       .example-container {
+            display: flex;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+            min-height: 250px;
+            box-sizing: border-box;
+        }
+
+        .case:nth-child(2n) .example-container {
+            flex-direction: row-reverse;
+        } 
+
+        .example-container div {
+            margin: 5px 10px 0px 0px;
+            max-width: 600px;
+            min-height: 357px;
+            flex-grow: 1;
+            flex-basis: 50%;
+        }
+
+        .map-container{
+            min-height: 355px;
+            border: 1px solid gray;
+        }
+
+        .code-container{
+            background-color: #2b2b2b;
+            overflow-x: auto;
+        }
+        .code-container .hljs {
+            overflow-x: inherit;
+        }
+        .code-container pre{
+            margin: 0px;
+        }
     </style>
 </head>
+
 <body>
-    <div class="main-container"> 
-    <openlayers-map 
-            class="minimap"
-            view-lon="-60.712829" 
-            view-lat="-31.641445" 
-            view-zoom="12"
-            raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-    >
-          <map-marker 
-                slot="marker"
-                m-longitude="-60.712829" 
-                m-latitude="-31.64144"
-            ></map-marker>
-            <map-marker 
-                slot="marker"
-                m-longitude="-60.681147" 
-                m-latitude="-31.640089"
-                m-color="#73BBFF"
-            ></map-marker>
-            <map-marker 
-                slot="marker"
-                m-longitude="-60.673697", 
-                m-latitude="-31.633669"
-                m-color="#5FFF82"
-            ></map-marker>
-    </openlayers-map>
+    <div class="main-container">
+        <h2 class="title">&lt;openlayers-map/&gt; 🌎</h2>
+        <section class="general-info">
+            <p>Web component for include maps in your apps and pages in an easy way</p>
+            <a href="https://www.npmjs.com/package/openlayers-component" target="blank">View in npm</a>
+            <a href="https://github.com/jonduttweiler/openlayers-wrapper-polymer3" target="blank">View in github</a>
+        </section>
 
-    <openlayers-map
-            class="minimap"
-            view-lon="103.847627" 
-            view-lat="1.353661" 
-            view-zoom="7"
-            raster-source="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-    >
-    </openlayers-map>
-    <openlayers-map
-            class="minimap"
-            view-lon="103.847627" 
-            view-lat="1.353661" 
-            view-zoom="7"
-            raster-source="http://c.tile.stamen.com/watercolor/{z}/{x}/{y}.jpg"
-    >
-    </openlayers-map>
+        <section class="section-examples"> 
 
-    
+        <div class="case" data-aos="fade-up">
+            <div class="title-container">
+                <h3>Simple Map</h3>
+            </div>
+            <div class="info-container">
+                <p>Simple map centered in a point with zoom</p>
+            </div>
+            <div class="example-container">
+                <div class="map-container" data-aos="fade-up">
+                    <openlayers-map view-lon="10" view-lat="20" view-zoom="1.5"
+                        tile-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png">
+                    </openlayers-map>
+                </div>
+                <div class="code-container" data-aos="fade-up">
+                    <pre><code class="html">&lt;openlayers-map 
+    view-lon=&quot;10&quot; 
+    view-lat=&quot;20&quot; 
+    view-zoom=&quot;1.5&quot;
+    tile-source=&quot;http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png&quot;&gt;
+&lt;/openlayers-map&gt;</code></pre>
+                </div>
+            </div>
+        </div>
+        
+        <div class="case" data-aos="fade-up">
+            <div class="title-container">
+                <h3>Custom markers</h3>
+            </div>
+            <div class="info-container">
+                <p>This maps allows you to point easily custom markers</p>
+            </div>
+            <div class="example-container">
+                <div class="map-container" data-aos="fade-up">
+                    <openlayers-map 
+                        view-lon="-60.712829" 
+                        view-lat="-31.641445" 
+                        view-zoom="12"
+                        tile-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png">
+                            <map-marker 
+                                slot="marker" 
+                                m-longitude="-60.712829" 
+                                m-latitude="-31.64144">
+                            </map-marker>
+                            <map-marker 
+                                slot="marker" 
+                                m-longitude="-60.681147" 
+                                m-latitude="-31.640089" 
+                                m-color="#73BBFF">
+                            </map-marker>
+                            <map-marker 
+                                slot="marker" 
+                                m-longitude="-60.673697" 
+                                m-latitude="-31.633669" 
+                                m-color="#5FFF82">
+                            </map-marker>
+                    </openlayers-map>
+                </div>
+                <div class="code-container" data-aos="fade-up">
+                    <pre><code class="html">&lt;openlayers-map 
+    view-lon=&quot;-60.712829&quot; 
+    view-lat=&quot;-31.641445&quot; 
+    view-zoom=&quot;12&quot;
+    tile-source=&quot;http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png&quot;&gt;
+        &lt;map-marker 
+            slot=&quot;marker&quot; 
+            m-longitude=&quot;-60.712829&quot; 
+            m-latitude=&quot;-31.64144&quot;&gt;
+        &lt;/map-marker&gt;
+        &lt;map-marker 
+            slot=&quot;marker&quot; 
+            m-longitude=&quot;-60.681147&quot; 
+            m-latitude=&quot;-31.640089&quot; 
+            m-color=&quot;#73BBFF&quot;&gt;
+        &lt;/map-marker&gt;
+        &lt;map-marker 
+            slot=&quot;marker&quot; 
+            m-longitude=&quot;-60.673697&quot; 
+            m-latitude=&quot;-31.633669&quot; 
+            m-color=&quot;#5FFF82&quot;&gt;
+        &lt;/map-marker&gt;
+&lt;/openlayers-map&gt;</code></pre>
+                </div>
+            </div>
+    </div>
 
-    <openlayers-map 
-            class="middlemap"
-            view-lon="-68.300550" 
-            view-lat="-54.795559" 
-            view-zoom="7"
-            raster-source="http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-    >
-    </openlayers-map>
+    <div class="case" data-aos="fade-up">
+        <div class="title-container">
+            <h3>Wikimedia source</h3>
+        </div>
+        <div class="info-container">
+            <p>This maps use wikimedia as source</p>
+        </div>
+        <div class="example-container">
+            <div class="map-container" data-aos="fade-up">
+                <openlayers-map view-lon="103.847627" view-lat="1.353661" view-zoom="7"
+                    tile-source="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png">
+                </openlayers-map>
+            </div>
 
-    <openlayers-map 
-        class="middlemap"
-        view-lon="-14.846667"
-        view-lat="2.799744"
-        view-zoom="1"
-        raster-source="http://a.tile.stamen.com/toner/{z}/{x}/{y}.png"
-    >
-        <map-marker slot="marker" m-longitude="-60.712829" m-latitude="-31.64144"></map-marker>
-        <map-marker slot="marker" m-longitude="91.006541" m-latitude="60.045965"m-color="#73BBFF"></map-marker>
-    </openlayers-map>
-    
-</div>
+            <div class="code-container" data-aos="fade-up">
+                <pre><code class="html">&lt;openlayers-map 
+    view-lon=&quot;103.847627&quot; 
+    view-lat=&quot;1.353661&quot; 
+    view-zoom=&quot;7&quot;
+    tile-source=&quot;https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png&quot;&gt;
+&lt;/openlayers-map&gt;</code></pre>
+            </div>
+        </div>
+     </div>
 
-    
+</section>
+
+
+
+
 
     <script src="main.js"></script>
+    <!-- <script>AOS.init();</script> -->
 </body>
+
 </html>
