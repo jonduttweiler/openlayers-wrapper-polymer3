@@ -38,13 +38,16 @@ class OpenlayersMap extends PolymerElement {
                 value:"http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
             },
             viewLon:{
-                type: Number
+                type: Number,
+                value:0 
             },
             viewLat:{
-                type: Number
+                type: Number,
+                value: 0
             },
             viewZoom:{
-                type: Number
+                type: Number,
+                value: 2
             },
         }
     }
@@ -84,6 +87,7 @@ class OpenlayersMap extends PolymerElement {
         const latitude = this.viewLat;
         const zoom = this.viewZoom;
         return new View({
+            enableRotation:false,
             center: fromLonLat([longitude, latitude]),
             zoom: zoom
         });
