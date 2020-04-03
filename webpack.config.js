@@ -2,10 +2,12 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-    entry:'./src/index.js',
+    entry:'./src/demo.js',
     mode: 'production',
     //devtool: 'inline-source-map',
     output: {
+        library: 'openlayers-component',
+        libraryTarget: 'umd',
         filename:'main.js',
         path: path.resolve(__dirname,'dist')
     },
