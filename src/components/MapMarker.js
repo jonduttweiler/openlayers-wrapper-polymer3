@@ -1,7 +1,6 @@
 import { PolymerElement, html } from '@polymer/polymer';
 
 class MapMarker extends PolymerElement {
-
     static get template() {
         return html`<p>I'm a marker 
                         <strong>latitude:</strong>[[mLatitude]]
@@ -11,16 +10,32 @@ class MapMarker extends PolymerElement {
 
     static get properties() {
         return {
-            mLatitude: { 
+            mLatitude: {
                 type: Number,
+                reflectToAttribute: true
+
             },
-            mLongitude: { 
+            mLongitude: {
                 type: Number,
+                reflectToAttribute: true
+
             },
-            mColor: { 
+            mColor: {
                 type: String,
+                reflectToAttribute: true
             }
         }
+    }
+    constructor(props) {
+        super();
+        if (props) {
+            if (props.longitude) this.mLongitude = props.longitude;
+            if (props.latitude) this.mLatitude = props.latitude;
+            if (props.color) this.mColor = props.color;
+
+        }
+
+        this.setAttribute("slot","marker");
     }
 
 

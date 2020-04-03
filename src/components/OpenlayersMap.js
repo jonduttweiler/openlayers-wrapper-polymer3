@@ -62,6 +62,7 @@ class OpenlayersMap extends PolymerElement {
     connectedCallback() {
         super.connectedCallback();
         this.initComponent();
+        
     }
 
     initComponent() {
@@ -69,6 +70,7 @@ class OpenlayersMap extends PolymerElement {
         this.initMap();
         this.processChildElements();
         this.addChangeViewListeners();
+        this.addMutationListener();
     }
 
     initLayers(){
@@ -113,15 +115,18 @@ class OpenlayersMap extends PolymerElement {
     processChildMarkers(){
         const markerSlot = this.$.marker;
         const assigned = markerSlot.assignedElements();
-        assigned.forEach(el => {
-            const latitude = el.getAttribute("m-latitude");
-            const longitude = el.getAttribute("m-longitude");
-            const color = el.getAttribute("m-color");
-            const coords = fromLonLat([longitude,latitude]);
-            console.log("add marker at"+coords);
-            this.markers.addMarker(coords, color);
-        });
+        assigned.forEach(el => this.addMarkerFromElement(el)); 
     }
+
+
+    addMarkerFromElement(element){
+        const latitude = element.getAttribute("m-latitude");
+        const longitude = element.getAttribute("m-longitude");
+        const color = element.getAttribute("m-color");
+        const coords = fromLonLat([longitude,latitude]);
+        this.markers.addMarker(coords, color);
+    }
+
 
 
     addChangeViewListeners(){
@@ -156,6 +161,23 @@ class OpenlayersMap extends PolymerElement {
             return this;
         });
     }
+
+    addMutationListener(){
+        
+        const callback = (mutationsList, observer) => {
+            for(let mutation of mutationsList) {
+                if (mutation.type === 'childList') { 
+                    mutation.addedNodes.forEach(el => this.addMarkerFromElement(el));
+                }
+                //TODO: implement remove
+            }
+        };
+
+        const observer = new MutationObserver(callback);
+        const config = { attributes: false, childList: true, subtree: false};
+        observer.observe(this, config);
+    }
+
 
 
 
