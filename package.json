@@ -11,7 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "start": "webpack-dev-server --open --host 0.0.0.0 --disable-host-check"
   },
   "keywords": [
     "openlayers",
@@ -28,7 +28,7 @@
   "dependencies": {
     "@polymer/polymer": "^3.3.1",
     "ol": "~6.1.1",
-    "ol-ext": "^3.1.10"
+    "ol-ext": "^3.1.11"
   },
   "devDependencies": {
     "css-loader": "^3.4.2",

@@ -16,7 +16,9 @@ module.exports = {
         minimizer: [new TerserPlugin()],
       },
     devServer:{
-        contentBase: './dist'
+        contentBase: './dist',
+        watchContentBase: true,
+        hot:true,
     },
     module: {
         rules: [

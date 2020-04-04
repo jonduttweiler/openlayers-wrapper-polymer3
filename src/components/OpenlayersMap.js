@@ -7,30 +7,37 @@ import { fromLonLat, toLonLat } from 'ol/proj';
 import TileXYZ from '../layers/TileXYZ';
 import Markers from '../layers/markers/Markers';
 
+import Bar from 'ol-ext/control/Bar';
+import GeolocationControl from '../controls/geolocation';
+
+
 import '../styles/openlayers';
+import '../styles/ol-ext';
 
 class OpenlayersMap extends PolymerElement {
 
     static get template() {
         return html`
-        <style include="openlayers-style"></style>
-        <style>
-            :host{
-                display:block;
-                width:100%;
-                height: 100%;
-                box-sizing:border-box;
-            }
+            <style include="openlayers-style"></style>
+            <style include="olext-style"></style>
+            
+            <style>
+                :host{
+                    display:block;
+                    width:100%;
+                    height: 100%;
+                    box-sizing:border-box;
+                }
 
-            #map{
-                 width:100%;
-                 height:100%;
-                 box-sizing: border-box;
-             }
-         </style>
-        
-        <div id="map"></div>
-        <slot id="marker" name="marker" style="display:none"><slot>
+                #map{
+                    width:100%;
+                    height:100%;
+                    box-sizing: border-box;
+                }
+            </style>
+            
+            <div id="map"></div>
+            <slot id="marker" name="marker" style="display:none"><slot>
         `;
     }
 
@@ -55,6 +62,10 @@ class OpenlayersMap extends PolymerElement {
                 value: 1,
                 notify:true,
             },
+            locateMeControl:{
+                type: Boolean, 
+                value: false
+            }
         }
     }
 
@@ -74,6 +85,8 @@ class OpenlayersMap extends PolymerElement {
         this.processChildElements();
         this.addChangeViewListeners();
         this.addMutationListener();
+
+        this.addControls();
     }
 
     initLayers(){
@@ -140,7 +153,7 @@ class OpenlayersMap extends PolymerElement {
             const updatedCoordinates = fromLonLat([ newLongitude, prevLat]);
 
             const deltaCoordinates = [updatedCoordinates[0] - prevCoordinates[0], 0];
-            this.view.adjustCenter(deltaCoordinates);
+            this.view.adjustCenter(deltaCoordinates); //TODO: replace with setCenter
             return this;
         });
 
@@ -151,7 +164,7 @@ class OpenlayersMap extends PolymerElement {
             const updatedCoordinates = fromLonLat([ prevLon, newLatitude]);
 
             const deltaCoordinates = [0,updatedCoordinates[1] - prevCoordinates[1]];
-            this.view.adjustCenter(deltaCoordinates);
+            this.view.adjustCenter(deltaCoordinates); //TODO: replace with setCenter
             return this;
         });
 
@@ -182,7 +195,33 @@ class OpenlayersMap extends PolymerElement {
     }
 
 
+    addControls(){
+        console.log("add controls!");
 
+        if(this.locateMeControl){
+            this.addLocateMeControl();
+        }
+    }
+
+    addLocateMeControl(){
+        const mainbar = new Bar();
+        mainbar.setPosition("top-left")
+        this.map.addControl(mainbar);
+
+        const handleSuccess = position => { this.showPositionOnMap(position); }
+        const handleErr = err => console.log(err);
+
+        const locateBtn = new GeolocationControl(handleSuccess,handleErr).button;
+
+        mainbar.addControl(locateBtn);
+    }
+
+    showPositionOnMap(position){
+        const { latitude, longitude } = position.coords;
+        const coordinates = fromLonLat([longitude,latitude]);
+        this.view.animate({center: coordinates,duration: 500,zoom:15});
+        this.markers.addMarker(coordinates);
+    }
 
 }
 
