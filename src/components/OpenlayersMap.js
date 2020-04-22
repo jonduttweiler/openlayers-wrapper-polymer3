@@ -10,6 +10,9 @@ import Markers from '../layers/markers/Markers';
 import Bar from 'ol-ext/control/Bar';
 import GeolocationControl from '../controls/geolocation';
 
+import { defaults as defaultInteractions, DragPan, MouseWheelZoom } from 'ol/interaction';
+import { mouseOnly , platformModifierKeyOnly} from 'ol/events/condition';
+
 
 import '../styles/openlayers';
 import '../styles/ol-ext';
@@ -18,9 +21,10 @@ class OpenlayersMap extends PolymerElement {
 
     static get template() {
         return html`
+            <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
             <style include="openlayers-style"></style>
             <style include="olext-style"></style>
-            
+
             <style>
                 :host{
                     display:block;
@@ -29,15 +33,47 @@ class OpenlayersMap extends PolymerElement {
                     box-sizing:border-box;
                 }
 
+                #map-container{
+                    width:100%;
+                    height:100%;
+                    box-sizing: border-box;
+                    position: relative;
+
+                }
                 #map{
                     width:100%;
                     height:100%;
                     box-sizing: border-box;
                 }
+
+                #backdrop{
+                    width: 100%;
+                    height: 100%;
+                    position: absolute;
+                    top:0;
+                    left:0;
+                    box-sizing: border-box;
+
+                    display: none; /*switch with flex*/
+                    justify-content: center;
+                    align-items: center;
+                    padding:20%;
+                    text-align:justify;
+
+                    font-size: 1.5rem;
+                    background-color: rgb(0,0,0,0.3);
+                    color:white;
+                    z-index:500;
+                    user-select: none;
+
+                }
+
             </style>
-            
-            <div id="map"></div>
-            <slot id="marker" name="marker" style="display:none"><slot>
+            <div id="map-container">
+                <div id="map"></div>
+                <div id="backdrop"></div>
+                <slot id="marker" name="marker" style="display:none"><slot>
+            </div>
         `;
     }
 
@@ -76,7 +112,6 @@ class OpenlayersMap extends PolymerElement {
     connectedCallback() {
         super.connectedCallback();
         this.initComponent();
-        
     }
 
     initComponent() {
@@ -87,6 +122,7 @@ class OpenlayersMap extends PolymerElement {
         this.addMutationListener();
 
         this.addControls();
+        this.initBackdrop();
     }
 
     initLayers(){
@@ -104,7 +140,8 @@ class OpenlayersMap extends PolymerElement {
         const map = new Map({
             target: this.$.map,
             layers: Object.values(this.layers),
-            view: this.createView()
+            view: this.createView(),
+            interactions: this.createInteractions()
         });
         this.map = map;
     }
@@ -121,6 +158,41 @@ class OpenlayersMap extends PolymerElement {
         });
         this.view = view;
         return view;
+    }
+    
+    _createMobileInteraction(){
+        const self = this;
+
+        const dragPan = new DragPan({
+            condition: function (event) {
+                if(mouseOnly(event)){
+                    return true;
+                } else { //touch interactions
+                    return this.getPointerCount() === 2;  
+                }
+            }
+        });
+
+        const mouseWheelZoom = new MouseWheelZoom({
+            condition: event => {
+                if (event.type === "wheel") {
+                    if (platformModifierKeyOnly(event)) {
+                        return true;
+                    } else {
+                        self.blinkMessage("Use ctrl + scroll to zoom the map");
+                        return false;
+                    }
+                }
+
+                return platformModifierKeyOnly(event);
+            }
+        });
+
+        return [dragPan, mouseWheelZoom];
+    }
+
+    createInteractions(){
+        return defaultInteractions({dragPan: false, mouseWheelZoom: false}).extend(this._createMobileInteraction());
     }
 
     processChildElements(){
@@ -196,11 +268,8 @@ class OpenlayersMap extends PolymerElement {
 
 
     addControls(){
-        console.log("add controls!");
+        if(this.locateMeControl)  this.addLocateMeControl();
 
-        if(this.locateMeControl){
-            this.addLocateMeControl();
-        }
     }
 
     addLocateMeControl(){
@@ -222,6 +291,32 @@ class OpenlayersMap extends PolymerElement {
         this.view.animate({center: coordinates,duration: 500,zoom:15});
         this.markers.addMarker(coordinates);
     }
+
+
+    initBackdrop(){
+        const backdrop = this.shadowRoot.querySelector("#backdrop");
+        backdrop.addEventListener("wheel", ev => ev.ctrlKey && ev.preventDefault());
+        //Ver como ignorar el pich zoom sobre esto en touch
+    }
+
+    showMessage(msg){
+        const backdrop = this.shadowRoot.querySelector("#backdrop");
+        backdrop.innerText = msg;
+        backdrop.style.display = "flex";
+    }
+
+    hideMessage(){
+        const backdrop = this.shadowRoot.querySelector("#backdrop");
+        backdrop.style.display = "none";
+        backdrop.innerText ="";
+    }
+
+    blinkMessage(msg, duration = 1000){
+        this.showMessage(msg);
+        return setTimeout( _ => this.hideMessage(),duration);
+    }
+
+
 
 }
 
