@@ -1,6 +1,6 @@
 # openlayers-wrapper-polymer3
 
-Add maps into your application or page in an easy way  🌎
+Add maps into your application or page in an easy way  🌎 [Live Demo](https://jonduttweiler.github.io/openlayers-wrapper-polymer3/)
 
 ### Installation
 
